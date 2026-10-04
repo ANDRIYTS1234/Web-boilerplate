@@ -134,6 +134,7 @@ textarea {
   color: #666;
 }
 
+.search__input:hover,
 .search__input:focus {
   width: 400px;
   outline: none;
@@ -789,6 +790,7 @@ textarea {
   }
 
   .search__input,
+  .search__input:hover,
   .search__input:focus {
     flex: 1;
     width: auto;
