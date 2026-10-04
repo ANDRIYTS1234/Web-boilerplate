@@ -1,0 +1,256 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+
+  &:target {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  &__window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    background-color: $c-white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+
+    &--add { width: 560px; }
+    &--info { width: 948px; }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    padding: 0 23px 0 19px;
+    background-color: $c-popup-header;
+    color: $c-white;
+  }
+
+  &__title {
+    font-family: $f-heading;
+    font-size: 27px;
+    font-weight: 400;
+  }
+
+  &__close {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform $transition;
+
+    &:hover {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.form {
+  padding: 30px 36px 29px;
+  color: $c-label-dark;
+
+  &__field {
+    margin-bottom: 20px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 16px;
+    line-height: 20px;
+
+    &--inline {
+      margin-bottom: 0;
+    }
+  }
+
+  &__control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid $c-control-border;
+    background-color: $c-white;
+    color: $c-text;
+    font-size: 16px;
+
+    &::placeholder {
+      color: $c-label;
+    }
+
+    &:focus {
+      outline: 2px solid $c-accent;
+      outline-offset: -1px;
+    }
+
+    &--date {
+      height: 39px;
+      padding: 0 8px;
+      font-size: 16px;
+    }
+
+    &--textarea {
+      height: 128px;
+      padding: 8px 10px;
+      resize: vertical;
+    }
+  }
+
+  &__inline {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .form__label--inline {
+      min-width: 65px;
+    }
+
+    &:has(.form__color) .form__label--inline {
+      min-width: 158px;
+    }
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+    color: $c-text;
+    font-size: 15px;
+    cursor: pointer;
+
+    input {
+      margin: 0;
+    }
+  }
+
+  &__palette {
+    width: 12px;
+    height: 12px;
+    margin: -14px 6px 0 0;
+    border-radius: 50%;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+  }
+
+  &__color {
+    width: 50px;
+    height: 27px;
+    padding: 2px 4px;
+    border: 1px solid $c-control-border;
+    background-color: #efefef;
+    cursor: pointer;
+  }
+
+  .btn--block {
+    margin-top: 32px;
+  }
+}
+
+.teacher-info {
+  position: relative;
+  padding: 20px;
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  &__photo {
+    float: left;
+    width: 320px;
+    height: 320px;
+    margin-right: 40px;
+    object-fit: cover;
+  }
+
+  &__details {
+    overflow: hidden;
+  }
+
+  &__name {
+    font-family: $f-heading;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 48px;
+  }
+
+  &__subject {
+    margin-top: 32px;
+    margin-bottom: 22px;
+    font-family: $f-heading;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+
+  &__text {
+    font-size: 16px;
+    line-height: 20px;
+
+    & + & {
+      margin-top: 16px;
+    }
+  }
+
+  &__star {
+    position: absolute;
+    top: 33px;
+    right: 20px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    svg {
+      display: block;
+      fill: transparent;
+      stroke: $c-star-outline;
+      stroke-width: 2;
+      transition: fill $transition, stroke $transition;
+    }
+
+    &:hover svg {
+      fill: $c-star;
+      stroke: $c-star;
+    }
+  }
+
+  &__description {
+    clear: both;
+    padding-top: 32px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .link--dotted {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}

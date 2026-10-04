@@ -4,6 +4,8 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "node express.js",
+    "sass": "sass src/scss/style.scss src/css/app.css --no-source-map && stylelint src/css/app.css --fix",
+    "sass:watch": "sass --watch src/scss/style.scss src/css/app.css --no-source-map",
     "build": "rm -f build && cross-env NODE_ENV=production webpack --progress",
     "lint": "eslint src/js",
     "stylelint": "stylelint src/css"

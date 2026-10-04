@@ -1,0 +1,66 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.slider {
+  position: relative;
+  margin-top: 40px;
+  padding-bottom: 19px;
+
+  &__list {
+    @include reset-list;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      flex: 0 0 $card-width;
+      scroll-snap-align: start;
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 96px;
+    width: 20px;
+    height: 64px;
+    padding: 0;
+    border: none;
+    background-color: $c-muted;
+    cursor: pointer;
+    transition: background-color $transition;
+
+    &:hover {
+      background-color: $c-text;
+    }
+
+    &--prev {
+      left: -60px;
+      @include chevron(left);
+    }
+
+    &--next {
+      right: -60px;
+      @include chevron(right);
+    }
+  }
+}
+
+.about {
+  &::before {
+    margin-bottom: 44px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 20px;
+
+    & + p {
+      margin-top: 16px;
+    }
+  }
+}
