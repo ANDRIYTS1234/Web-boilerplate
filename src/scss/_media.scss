@@ -1,0 +1,213 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+@include mobile {
+  .page {
+    width: 100%;
+    padding: 0 16px 24px;
+    box-shadow: none;
+  }
+
+  .header__top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .logo img {
+    width: 220px;
+    margin: 0 auto;
+  }
+
+  .search {
+    gap: 8px;
+
+    &__input,
+    &__input:focus {
+      flex: 1;
+      width: auto;
+      min-width: 0;
+    }
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+
+    &__list {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 24px;
+    }
+
+    &__link {
+      font-size: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      height: 44px;
+      font-size: 20px;
+    }
+  }
+
+  .section {
+    &::before {
+      margin-top: 28px;
+    }
+
+    &__title {
+      margin-top: 16px;
+      font-size: 30px;
+      line-height: 38px;
+    }
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+
+    &__item {
+      justify-content: space-between;
+      padding: 0;
+
+      & + & {
+        border-left: none;
+      }
+    }
+
+    &__select {
+      flex: 1;
+      max-width: 110px;
+    }
+  }
+
+  .teachers {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    row-gap: 28px;
+    margin-top: 28px;
+    padding-bottom: 0;
+  }
+
+  .card {
+    &__avatar {
+      width: 120px;
+      height: 120px;
+    }
+
+    &__name {
+      margin-top: 12px;
+      font-size: 19px;
+      line-height: 24px;
+    }
+
+    &--favorite::after {
+      left: calc(50% + 36px);
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  .stats {
+    margin-top: 20px;
+    overflow-x: auto;
+
+    &__table {
+      min-width: 600px;
+
+      th {
+        font-size: 17px;
+      }
+
+      td {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: 20px;
+  }
+
+  .slider {
+    margin-top: 24px;
+    padding-bottom: 0;
+
+    &__arrow {
+      display: none;
+    }
+
+    &__list .card {
+      flex-basis: 150px;
+    }
+  }
+
+  .about::before {
+    margin-bottom: 24px;
+  }
+
+  .nav--footer {
+    margin-top: 28px;
+  }
+
+  .popup__window {
+    &--add,
+    &--info {
+      width: calc(100% - 32px);
+    }
+  }
+
+  .popup__title {
+    font-size: 22px;
+  }
+
+  .form {
+    padding: 20px 16px;
+
+    &__row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .teacher-info {
+    padding: 16px;
+
+    &__photo {
+      float: none;
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      aspect-ratio: 1;
+      margin: 0 auto 16px;
+    }
+
+    &__name {
+      padding-right: 44px;
+      font-size: 28px;
+      line-height: 36px;
+    }
+
+    &__subject {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    &__text + &__text {
+      margin-top: 8px;
+    }
+
+    &__star {
+      top: 16px;
+      right: 16px;
+    }
+
+    &__description {
+      padding-top: 16px;
+    }
+  }
+}
