@@ -1,0 +1,152 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.section {
+  &::before {
+    @include divider;
+    margin-top: 40px;
+  }
+
+  &__title {
+    margin-top: 26px;
+    font-family: $f-heading;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48px;
+    text-align: center;
+  }
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 20px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    & + & {
+      border-left: 2px dotted $c-label;
+    }
+  }
+
+  &__label {
+    margin-right: 17px;
+    color: $c-label;
+    font-size: 15px;
+  }
+
+  &__select {
+    height: 36px;
+    padding: 0 4px 0 6px;
+    border: 1px solid $c-control-border;
+    background-color: $c-white;
+    color: $c-text;
+    font-size: 15px;
+
+    &--age { width: 77px; }
+    &--region { width: 92px; }
+    &--sex { width: 87px; }
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: $c-label;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color $transition;
+
+    &:hover {
+      color: $c-text;
+    }
+  }
+}
+
+.teachers {
+  @include reset-list;
+  display: grid;
+  grid-template-columns: repeat(5, $card-width);
+  row-gap: 39px;
+  margin-top: 60px;
+  padding-bottom: 19px;
+}
+
+.card {
+  position: relative;
+  text-align: center;
+
+  &__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $avatar-size;
+    height: $avatar-size;
+    margin: 0 auto;
+    border: 4px solid $c-avatar-border;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: border-color $transition;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover {
+      border-color: $c-accent-dark;
+    }
+
+    &--initials {
+      color: $c-accent;
+      font-family: $f-heading;
+      font-size: 25px;
+      font-weight: 600;
+    }
+  }
+
+  &__name {
+    margin-top: 18px;
+    font-family: $f-heading;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+
+  &__subject {
+    margin-top: 12px;
+    color: $c-muted;
+    font-size: 16px;
+    line-height: 21px;
+  }
+
+  &__country {
+    margin-top: 7px;
+    font-size: 12px;
+    line-height: 16px;
+
+    .card__name + & {
+      margin-top: 12px;
+    }
+  }
+
+  &--favorite::after {
+    @include star-shape;
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: calc(50% + 50px);
+    width: 32px;
+    height: 32px;
+    background-color: $c-star;
+  }
+}

@@ -1,4 +1,4 @@
-import testModules from './test-module.js';
-/** ******** Your code here! *********** */
+import '../scss/style.scss';
+import runLab2Demo from './lab2-demo';
 
-console.log(testModules.hello);
+runLab2Demo();
