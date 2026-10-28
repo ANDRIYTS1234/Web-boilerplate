@@ -1,4 +1,6 @@
 import '../scss/style.scss';
-import runLab2Demo from './lab2-demo';
+import { randomUserMock, additionalUsers } from './mock';
+import formatUsers from './format-users';
+import initPage from './page';
 
-runLab2Demo();
+initPage(formatUsers(randomUserMock, additionalUsers));

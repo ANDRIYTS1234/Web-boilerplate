@@ -11,4 +11,6 @@ const matchesSearch = (user, query) => {
 
 const findUser = (users, query) => users.find((user) => matchesSearch(user, query));
 
+export const searchUsers = (users, query) => users.filter((user) => matchesSearch(user, query));
+
 export default findUser;

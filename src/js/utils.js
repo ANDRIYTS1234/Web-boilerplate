@@ -36,3 +36,11 @@ export const getAge = (birthDate, now = new Date()) => {
 };
 
 export const normalizeName = (name) => (typeof name === 'string' ? name.trim().toLowerCase() : '');
+
+export const capitalize = (text) => (text ? text[0].toUpperCase() + text.slice(1) : '');
+
+export const escapeHtml = (value) => String(isNil(value) ? '' : value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');

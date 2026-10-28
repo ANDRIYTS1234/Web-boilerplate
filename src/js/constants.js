@@ -29,8 +29,11 @@ export const PHONE_PATTERNS = {
   Canada: /^\d{3}-\d{3}-\d{4}$/,
   France: /^\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/,
   Netherlands: /^\(\d{3}\)-\d{3}-\d{4}$/,
+  Ukraine: /^\+380\d{9}$/,
 };
 
 export const DEFAULT_PHONE_PATTERN = /^[\d\s()+-]{6,}$/;
 
-export const SORTABLE_FIELDS = ['full_name', 'age', 'b_day', 'country'];
+export const SORTABLE_FIELDS = ['full_name', 'course', 'age', 'b_day', 'country'];
+
+export const PAGE_SIZE = 10;

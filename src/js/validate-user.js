@@ -4,13 +4,13 @@ import { isNil, startsWithCapital } from './utils';
 const CAPITALIZED_FIELDS = ['full_name', 'gender', 'note', 'state', 'city', 'country'];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const isValidPhone = (phone, country) => {
+export const isValidPhone = (phone, country) => {
   if (typeof phone !== 'string') return false;
   const pattern = PHONE_PATTERNS[country] || DEFAULT_PHONE_PATTERN;
   return pattern.test(phone);
 };
 
-const isValidEmail = (email) => typeof email === 'string' && EMAIL_PATTERN.test(email);
+export const isValidEmail = (email) => typeof email === 'string' && EMAIL_PATTERN.test(email);
 
 const validateUser = (user) => {
   const errors = [];

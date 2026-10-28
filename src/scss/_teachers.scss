@@ -78,6 +78,12 @@
   row-gap: 39px;
   margin-top: 60px;
   padding-bottom: 19px;
+
+  &__empty {
+    grid-column: 1 / -1;
+    color: $c-muted;
+    text-align: center;
+  }
 }
 
 .card {

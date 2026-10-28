@@ -165,6 +165,13 @@
     cursor: pointer;
   }
 
+  &__errors {
+    margin-top: 20px;
+    color: $c-accent;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
   .btn--block {
     margin-top: 32px;
   }
@@ -232,6 +239,11 @@
       stroke: $c-star-outline;
       stroke-width: 2;
       transition: fill $transition, stroke $transition;
+    }
+
+    &--active svg {
+      fill: $c-star;
+      stroke: $c-star;
     }
 
     &:hover svg {

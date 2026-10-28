@@ -15,8 +15,8 @@
     <header class="header">
       <div class="header__top">
         <a href="#" class="logo"><img src="images/logo.png" alt="Teachinder" width="300" height="49"></a>
-        <form class="search" action="#">
-          <input class="search__input" type="search" placeholder="Name, note or age to search">
+        <form class="search" id="search-form" action="#">
+          <input class="search__input" name="search" type="search" placeholder="Name, note or age to search">
           <button class="btn btn--small" type="submit">Search</button>
         </form>
       </div>
@@ -35,88 +35,39 @@
       <section class="section" id="teachers">
         <h2 class="section__title">Top Teachers</h2>
 
-        <form class="filters" action="#">
+        <form class="filters" id="filters" action="#">
           <div class="filters__item">
             <label class="filters__label" for="f-age">Age</label>
-            <select class="filters__select filters__select--age" id="f-age">
-              <option>18-31</option>
-              <option>32-45</option>
-              <option>46+</option>
+            <select class="filters__select filters__select--age" id="f-age" name="age">
+              <option value="">All</option>
+              <option value="18-31">18-31</option>
+              <option value="32-45">32-45</option>
+              <option value="46-120">46+</option>
             </select>
           </div>
           <div class="filters__item">
-            <label class="filters__label" for="f-region">Region</label>
-            <select class="filters__select filters__select--region" id="f-region">
-              <option>Europe</option>
-              <option>Asia</option>
-              <option>America</option>
+            <label class="filters__label" for="f-country">Country</label>
+            <select class="filters__select filters__select--region" id="f-country" name="country">
+              <option value="">All</option>
             </select>
           </div>
           <div class="filters__item">
             <label class="filters__label" for="f-sex">Sex</label>
-            <select class="filters__select filters__select--sex" id="f-sex">
-              <option>Male</option>
-              <option>Female</option>
+            <select class="filters__select filters__select--sex" id="f-sex" name="gender">
+              <option value="">All</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
           </div>
           <div class="filters__item">
-            <label class="filters__check"><input type="checkbox"> Only with photo</label>
+            <label class="filters__check"><input type="checkbox" name="photo"> Only with photo</label>
           </div>
           <div class="filters__item">
-            <label class="filters__check"><input type="checkbox"> Only favorites</label>
+            <label class="filters__check"><input type="checkbox" name="favorite"> Only favorites</label>
           </div>
         </form>
 
-        <ul class="teachers">
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar"><img src="images/ihor-avatar.jpg" alt="Ihor Tkachuk"></a>
-            <h3 class="card__name">Ihor<br>Tkachuk</h3>
-            <p class="card__subject">Chemistry</p>
-            <p class="card__country">Ukraine</p>
-          </li>
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar"><img src="images/pragg.jpg" alt="Pragg Rameshbabu"></a>
-            <h3 class="card__name">Pragg<br>Rameshbabu</h3>
-            <p class="card__subject">Chess</p>
-            <p class="card__country">India</p>
-          </li>
-          <li class="card card--favorite">
-            <a href="#teacher-info" class="card__avatar"><img src="images/floor.jpg" alt="Floor Jansen"></a>
-            <h3 class="card__name">Floor<br>Jansen</h3>
-            <p class="card__subject">Vocal</p>
-            <p class="card__country">Denmark</p>
-          </li>
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar"><img src="images/john.jpg" alt="John Burke"></a>
-            <h3 class="card__name">John<br>Burke</h3>
-            <p class="card__subject">Computer Science</p>
-            <p class="card__country">Belgium</p>
-          </li>
-          <li class="card card--favorite">
-            <a href="#teacher-info" class="card__avatar"><img src="images/ari.jpg" alt="Ari Tang"></a>
-            <h3 class="card__name">Ari<br>Tang</h3>
-            <p class="card__subject">Biology</p>
-            <p class="card__country">China</p>
-          </li>
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar"><img src="images/rachel.jpg" alt="Rachel Andrew"></a>
-            <h3 class="card__name">Rachel<br>Andrew</h3>
-            <p class="card__subject">Medicine</p>
-            <p class="card__country">UK</p>
-          </li>
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar card__avatar--initials">A.M</a>
-            <h3 class="card__name">Anna<br>Muzychuk</h3>
-            <p class="card__subject">Chess</p>
-            <p class="card__country">Belarus</p>
-          </li>
-          <li class="card">
-            <a href="#teacher-info" class="card__avatar card__avatar--initials">R.L</a>
-            <h3 class="card__name">Radoslaw<br>Ljuboevic</h3>
-            <p class="card__subject">Physics</p>
-            <p class="card__country">Poland</p>
-          </li>
-        </ul>
+        <ul class="teachers" id="teachers-list"></ul>
       </section>
 
       <section class="section" id="statistics">
@@ -132,67 +83,24 @@
             </colgroup>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Speciality</th>
-                <th>Age</th>
+                <th data-sort="full_name">Name</th>
+                <th data-sort="course">Speciality</th>
+                <th data-sort="age">Age</th>
                 <th>Gender</th>
-                <th>Nationality</th>
+                <th data-sort="country">Nationality</th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td>Daisy Alexander</td><td>Chemistry</td><td>28</td><td>Female</td><td>Vietnam</td></tr>
-              <tr><td>Julia Bradley</td><td>Math</td><td>26</td><td>Female</td><td>USA</td></tr>
-              <tr><td>Rita Hart</td><td>Art</td><td>41</td><td>Female</td><td>Ireland</td></tr>
-              <tr><td>Jonathan Jacobs</td><td>Math</td><td>32</td><td>Male</td><td>England</td></tr>
-              <tr><td>Nathaniel White</td><td>Computer Science</td><td>37</td><td>Male</td><td>Austria</td></tr>
-              <tr><td>Frank Medina</td><td>English</td><td>43</td><td>Male</td><td>Italy</td></tr>
-              <tr><td>Ella Curtis</td><td>Chess</td><td>34</td><td>Female</td><td>USA</td></tr>
-              <tr><td>Claire Simmmons</td><td>Art</td><td>38</td><td>Female</td><td>Netherlands</td></tr>
-              <tr><td>Benjamin Knight</td><td>Biology</td><td>44</td><td>Male</td><td>Scotland</td></tr>
-              <tr><td>Norma Rose</td><td>Statistics</td><td>36</td><td>Female</td><td>France</td></tr>
-            </tbody>
+            <tbody id="stats-body"></tbody>
           </table>
         </div>
-        <nav class="pagination">
-          <span class="pagination__item pagination__item--current">1</span>
-          <a class="pagination__item" href="#">2</a>
-          <a class="pagination__item" href="#">3</a>
-          <span class="pagination__item pagination__item--dots">...</span>
-          <a class="pagination__item" href="#">Last</a>
-        </nav>
+        <nav class="pagination" id="stats-pagination"></nav>
       </section>
 
       <section class="section" id="favorites">
         <h2 class="section__title">Favorites</h2>
         <div class="slider">
           <button class="slider__arrow slider__arrow--prev" type="button" aria-label="Previous"></button>
-          <ul class="slider__list">
-            <li class="card">
-              <a href="#teacher-info" class="card__avatar"><img src="images/ihor-avatar.jpg" alt="Ihor Tkachuk"></a>
-              <h3 class="card__name">Ihor<br>Tkachuk</h3>
-              <p class="card__country">Ukraine</p>
-            </li>
-            <li class="card">
-              <a href="#teacher-info" class="card__avatar card__avatar--initials">A.M</a>
-              <h3 class="card__name">Anna<br>Makarevich</h3>
-              <p class="card__country">Belarus</p>
-            </li>
-            <li class="card">
-              <a href="#teacher-info" class="card__avatar"><img src="images/john.jpg" alt="John Burke"></a>
-              <h3 class="card__name">John<br>Burke</h3>
-              <p class="card__country">Belgium</p>
-            </li>
-            <li class="card">
-              <a href="#teacher-info" class="card__avatar"><img src="images/ari.jpg" alt="Ari Tang"></a>
-              <h3 class="card__name">Ari<br>Tang</h3>
-              <p class="card__country">China</p>
-            </li>
-            <li class="card">
-              <a href="#teacher-info" class="card__avatar"><img src="images/floor.jpg" alt="Floor Jansen"></a>
-              <h3 class="card__name">Floor<br>Jansen</h3>
-              <p class="card__country">Denmark</p>
-            </li>
-          </ul>
+          <ul class="slider__list" id="favorites-list"></ul>
           <button class="slider__arrow slider__arrow--next" type="button" aria-label="Next"></button>
         </div>
       </section>
@@ -224,62 +132,82 @@
         <h2 class="popup__title">Add Teacher</h2>
         <a href="#" class="popup__close" aria-label="Close">&times;</a>
       </div>
-      <form class="form" action="#">
+      <form class="form" id="add-teacher-form" action="#" novalidate>
         <div class="form__field">
           <label class="form__label" for="t-name">Name</label>
-          <input class="form__control" id="t-name" type="text" placeholder="Enter name">
+          <input class="form__control" id="t-name" name="full_name" type="text" placeholder="Enter name">
         </div>
         <div class="form__field">
           <label class="form__label" for="t-speciality">Speciality</label>
-          <select class="form__control" id="t-speciality">
-            <option>Mathematics</option>
-            <option>Physics</option>
-            <option>Chemistry</option>
-            <option>Biology</option>
-            <option>Chess</option>
-            <option>Computer Science</option>
+          <select class="form__control" id="t-speciality" name="course">
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="English">English</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Dancing">Dancing</option>
+            <option value="Chess">Chess</option>
+            <option value="Biology">Biology</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Law">Law</option>
+            <option value="Art">Art</option>
+            <option value="Medicine">Medicine</option>
+            <option value="Statistics">Statistics</option>
           </select>
         </div>
         <div class="form__row">
           <div class="form__field">
             <label class="form__label" for="t-country">Country</label>
-            <select class="form__control" id="t-country">
-              <option>Ukraine</option>
-              <option>Poland</option>
-              <option>Belgium</option>
+            <select class="form__control" id="t-country" name="country">
+              <option value="Australia">Australia</option>
+              <option value="Canada">Canada</option>
+              <option value="Denmark">Denmark</option>
+              <option value="Finland">Finland</option>
+              <option value="France">France</option>
+              <option value="Germany">Germany</option>
+              <option value="Iran">Iran</option>
+              <option value="Ireland">Ireland</option>
+              <option value="Netherlands">Netherlands</option>
+              <option value="New Zealand">New Zealand</option>
+              <option value="Norway">Norway</option>
+              <option value="Spain">Spain</option>
+              <option value="Switzerland">Switzerland</option>
+              <option value="Turkey">Turkey</option>
+              <option value="Ukraine">Ukraine</option>
+              <option value="United States">United States</option>
             </select>
           </div>
           <div class="form__field">
             <label class="form__label" for="t-city">City</label>
-            <input class="form__control" id="t-city" type="text">
+            <input class="form__control" id="t-city" name="city" type="text">
           </div>
           <div class="form__field">
             <label class="form__label" for="t-email">Email</label>
-            <input class="form__control" id="t-email" type="email">
+            <input class="form__control" id="t-email" name="email" type="email">
           </div>
           <div class="form__field">
             <label class="form__label" for="t-phone">Phone</label>
-            <input class="form__control" id="t-phone" type="tel">
+            <input class="form__control" id="t-phone" name="phone" type="tel">
           </div>
           <div class="form__field">
             <label class="form__label" for="t-birth">Date of birth</label>
-            <input class="form__control form__control--date" id="t-birth" type="date">
+            <input class="form__control form__control--date" id="t-birth" name="b_day" type="date">
           </div>
         </div>
         <div class="form__inline">
           <span class="form__label form__label--inline">Sex</span>
-          <label class="form__radio">Male <input type="radio" name="sex" value="male"></label>
-          <label class="form__radio">Female <input type="radio" name="sex" value="female"></label>
+          <label class="form__radio">Male <input type="radio" name="gender" value="male"></label>
+          <label class="form__radio">Female <input type="radio" name="gender" value="female"></label>
         </div>
         <div class="form__inline">
           <label class="form__label form__label--inline" for="t-color">Background color</label>
           <span class="form__palette" aria-hidden="true"></span>
-          <input class="form__color" id="t-color" type="color" value="#000000">
+          <input class="form__color" id="t-color" name="bg_color" type="color" value="#000000">
         </div>
         <div class="form__field">
           <label class="form__label" for="t-notes">Notes (optional)</label>
-          <textarea class="form__control form__control--textarea" id="t-notes"></textarea>
+          <textarea class="form__control form__control--textarea" id="t-notes" name="note"></textarea>
         </div>
+        <p class="form__errors" id="form-errors"></p>
         <button class="btn btn--block" type="submit">Add</button>
       </form>
     </div>
@@ -293,20 +221,20 @@
         <a href="#" class="popup__close" aria-label="Close">&times;</a>
       </div>
       <div class="teacher-info">
-        <img class="teacher-info__photo" src="images/ihor.jpg" alt="Ihor Tkachuk" width="320" height="320">
+        <img class="teacher-info__photo" id="info-photo" src="" alt="" width="320" height="320" hidden>
         <div class="teacher-info__details">
-          <h3 class="teacher-info__name">Ihor Tkachuk</h3>
-          <p class="teacher-info__subject">Chemistry</p>
-          <p class="teacher-info__text">Kyiv, Ukraine</p>
-          <p class="teacher-info__text">35, Male</p>
-          <p class="teacher-info__text"><a class="link" href="mailto:ihor_tkachuk@domain.com">ihor_tkachuk@domain.com</a></p>
-          <p class="teacher-info__text">+380964993252</p>
+          <h3 class="teacher-info__name" id="info-name"></h3>
+          <p class="teacher-info__subject" id="info-course"></p>
+          <p class="teacher-info__text" id="info-location"></p>
+          <p class="teacher-info__text" id="info-age"></p>
+          <p class="teacher-info__text"><a class="link" id="info-email" href="#"></a></p>
+          <p class="teacher-info__text" id="info-phone"></p>
         </div>
-        <button class="teacher-info__star" type="button" aria-label="Add to favorites">
+        <button class="teacher-info__star" id="info-star" type="button" aria-label="Add to favorites">
           <svg viewBox="0 0 40 38" width="40" height="38"><polygon points="20,1.5 25,14 38.5,14.5 28,23 31.5,36.5 20,28.5 8.5,36.5 12,23 1.5,14.5 15,14"/></svg>
         </button>
-        <p class="teacher-info__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem consectetur culpa cumque, distinctio dolor dolore dolorem doloremque ea explicabo facilis nam nesciunt nisi pariatur perspiciatis porro quis similique temporibus veniam veritatis? A ab ad, aliquam amet consequatur cupiditate debitis deserunt doloribus dolorum earum eius eos minus nostrum odit omnis perferendis...</p>
-        <a class="link link--dotted" href="#">toggle map</a>
+        <p class="teacher-info__description" id="info-note"></p>
+        <a class="link link--dotted" href="#teacher-info">toggle map</a>
       </div>
     </div>
   </div>
