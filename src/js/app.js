@@ -1,4 +1,4 @@
-import testModules from './test-module.js';
-/** ******** Your code here! *********** */
+import '../scss/style.scss';
+import initPage from './page';
 
-console.log(testModules.hello);
+initPage();

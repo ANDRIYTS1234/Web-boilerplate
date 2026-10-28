@@ -1,21 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teachinder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/app.css">
+</head>
+<body>
+  <div class="page">
 
-   <head itemscope itemtype="http://schema.org/WebSite">
+    <header class="header">
+      <div class="header__top">
+        <a href="#" class="logo"><img src="images/logo.png" alt="Teachinder" width="300" height="49"></a>
+        <form class="search" id="search-form" action="#">
+          <input class="search__input" name="search" type="search" placeholder="Name, note or age to search">
+          <button class="btn btn--small" type="submit">Search</button>
+        </form>
+      </div>
+      <nav class="nav">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#teachers">Teachers</a></li>
+          <li><a class="nav__link" href="#statistics">Statistics</a></li>
+          <li><a class="nav__link" href="#favorites">Favorites</a></li>
+          <li><a class="nav__link" href="#about">About</a></li>
+        </ul>
+        <a class="btn" href="#add-teacher">Add teacher</a>
+      </nav>
+    </header>
 
-      <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <meta name="msapplication-tap-highlight" content="no">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <main>
+      <section class="section" id="teachers">
+        <h2 class="section__title">Top Teachers</h2>
 
-      <title>Project</title>
+        <form class="filters" id="filters" action="#">
+          <div class="filters__item">
+            <label class="filters__label" for="f-age">Age</label>
+            <select class="filters__select filters__select--age" id="f-age" name="age">
+              <option value="">All</option>
+              <option value="18-31">18-31</option>
+              <option value="32-45">32-45</option>
+              <option value="46-120">46+</option>
+            </select>
+          </div>
+          <div class="filters__item">
+            <label class="filters__label" for="f-country">Country</label>
+            <select class="filters__select filters__select--region" id="f-country" name="country">
+              <option value="">All</option>
+            </select>
+          </div>
+          <div class="filters__item">
+            <label class="filters__label" for="f-sex">Sex</label>
+            <select class="filters__select filters__select--sex" id="f-sex" name="gender">
+              <option value="">All</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="filters__item">
+            <label class="filters__check"><input type="checkbox" name="photo"> Only with photo</label>
+          </div>
+          <div class="filters__item">
+            <label class="filters__check"><input type="checkbox" name="favorite"> Only favorites</label>
+          </div>
+        </form>
 
-      <link rel="stylesheet" href="./css/app.css">
+        <ul class="teachers" id="teachers-list"></ul>
+        <div class="teachers-more">
+          <button class="btn btn--small" id="load-more" type="button">Next</button>
+        </div>
+      </section>
 
-   </head>
+      <section class="section" id="statistics">
+        <h2 class="section__title">Statistics</h2>
+        <p class="stats__count" id="stats-count"></p>
+        <div class="stats">
+          <table class="stats__table">
+            <colgroup>
+              <col class="stats__col stats__col--name">
+              <col class="stats__col stats__col--speciality">
+              <col class="stats__col stats__col--age">
+              <col class="stats__col stats__col--gender">
+              <col class="stats__col stats__col--nationality">
+            </colgroup>
+            <thead>
+              <tr>
+                <th data-sort="full_name">Name</th>
+                <th data-sort="course">Speciality</th>
+                <th data-sort="age">Age</th>
+                <th>Gender</th>
+                <th data-sort="country">Nationality</th>
+              </tr>
+            </thead>
+            <tbody id="stats-body"></tbody>
+          </table>
+        </div>
+        <nav class="pagination" id="stats-pagination"></nav>
+      </section>
 
-   <body itemscope itemtype="http://schema.org/WebPage">
-      <script type="text/javascript" src="./js/app.js"></script>
-      
-  </body>
+      <section class="section" id="favorites">
+        <h2 class="section__title">Favorites</h2>
+        <div class="slider">
+          <button class="slider__arrow slider__arrow--prev" type="button" aria-label="Previous"></button>
+          <ul class="slider__list" id="favorites-list"></ul>
+          <button class="slider__arrow slider__arrow--next" type="button" aria-label="Next"></button>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque facere, hic impedit itaque molestiae sit tempore? Ea in mollitia natus rerum voluptates. Ea ex excepturi facere tempora. Aliquid asperiores hic impedit iusto natus quaerat ratione sit? Culpa iusto optio voluptas voluptate. Enim eveniet fugit iure maiores molestiae, praesentium quia.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam eligendi illum in inventore ipsum odio officiis omnis quisquam sed tempora?</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque esse expedita id iusto mollitia, odit sint ullam veritatis vero?</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <nav class="nav nav--footer">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#teachers">Teachers</a></li>
+          <li><a class="nav__link" href="#statistics">Statistics</a></li>
+          <li><a class="nav__link" href="#favorites">Favorites</a></li>
+          <li><a class="nav__link" href="#about">About</a></li>
+        </ul>
+        <a class="btn" href="#add-teacher">Add teacher</a>
+      </nav>
+    </footer>
+  </div>
+
+  <div class="popup" id="add-teacher">
+    <a href="#" class="popup__overlay" aria-label="Close"></a>
+    <div class="popup__window popup__window--add">
+      <div class="popup__header">
+        <h2 class="popup__title">Add Teacher</h2>
+        <a href="#" class="popup__close" aria-label="Close">&times;</a>
+      </div>
+      <form class="form" id="add-teacher-form" action="#" novalidate>
+        <div class="form__field">
+          <label class="form__label" for="t-name">Name</label>
+          <input class="form__control" id="t-name" name="full_name" type="text" placeholder="Enter name">
+        </div>
+        <div class="form__field">
+          <label class="form__label" for="t-speciality">Speciality</label>
+          <select class="form__control" id="t-speciality" name="course">
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="English">English</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Dancing">Dancing</option>
+            <option value="Chess">Chess</option>
+            <option value="Biology">Biology</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Law">Law</option>
+            <option value="Art">Art</option>
+            <option value="Medicine">Medicine</option>
+            <option value="Statistics">Statistics</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <div class="form__field">
+            <label class="form__label" for="t-country">Country</label>
+            <select class="form__control" id="t-country" name="country">
+              <option value="Australia">Australia</option>
+              <option value="Canada">Canada</option>
+              <option value="Denmark">Denmark</option>
+              <option value="Finland">Finland</option>
+              <option value="France">France</option>
+              <option value="Germany">Germany</option>
+              <option value="Iran">Iran</option>
+              <option value="Ireland">Ireland</option>
+              <option value="Netherlands">Netherlands</option>
+              <option value="New Zealand">New Zealand</option>
+              <option value="Norway">Norway</option>
+              <option value="Spain">Spain</option>
+              <option value="Switzerland">Switzerland</option>
+              <option value="Turkey">Turkey</option>
+              <option value="Ukraine">Ukraine</option>
+              <option value="United States">United States</option>
+            </select>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="t-city">City</label>
+            <input class="form__control" id="t-city" name="city" type="text">
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="t-email">Email</label>
+            <input class="form__control" id="t-email" name="email" type="email">
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="t-phone">Phone</label>
+            <input class="form__control" id="t-phone" name="phone" type="tel">
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="t-birth">Date of birth</label>
+            <input class="form__control form__control--date" id="t-birth" name="b_day" type="date">
+          </div>
+        </div>
+        <div class="form__inline">
+          <span class="form__label form__label--inline">Sex</span>
+          <label class="form__radio">Male <input type="radio" name="gender" value="male"></label>
+          <label class="form__radio">Female <input type="radio" name="gender" value="female"></label>
+        </div>
+        <div class="form__inline">
+          <label class="form__label form__label--inline" for="t-color">Background color</label>
+          <span class="form__palette" aria-hidden="true"></span>
+          <input class="form__color" id="t-color" name="bg_color" type="color" value="#000000">
+        </div>
+        <div class="form__field">
+          <label class="form__label" for="t-notes">Notes (optional)</label>
+          <textarea class="form__control form__control--textarea" id="t-notes" name="note"></textarea>
+        </div>
+        <p class="form__errors" id="form-errors"></p>
+        <button class="btn btn--block" type="submit">Add</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup" id="teacher-info">
+    <a href="#" class="popup__overlay" aria-label="Close"></a>
+    <div class="popup__window popup__window--info">
+      <div class="popup__header">
+        <h2 class="popup__title">Teacher Info</h2>
+        <a href="#" class="popup__close" aria-label="Close">&times;</a>
+      </div>
+      <div class="teacher-info">
+        <img class="teacher-info__photo" id="info-photo" src="" alt="" width="320" height="320" hidden>
+        <div class="teacher-info__details">
+          <h3 class="teacher-info__name" id="info-name"></h3>
+          <p class="teacher-info__subject" id="info-course"></p>
+          <p class="teacher-info__text" id="info-location"></p>
+          <p class="teacher-info__text" id="info-age"></p>
+          <p class="teacher-info__text"><a class="link" id="info-email" href="#"></a></p>
+          <p class="teacher-info__text" id="info-phone"></p>
+        </div>
+        <button class="teacher-info__star" id="info-star" type="button" aria-label="Add to favorites">
+          <svg viewBox="0 0 40 38" width="40" height="38"><polygon points="20,1.5 25,14 38.5,14.5 28,23 31.5,36.5 20,28.5 8.5,36.5 12,23 1.5,14.5 15,14"/></svg>
+        </button>
+        <p class="teacher-info__description" id="info-note"></p>
+        <a class="link link--dotted" href="#teacher-info">toggle map</a>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
