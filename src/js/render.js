@@ -40,6 +40,14 @@ export const renderTeachers = (users) => {
     : '<li class="teachers__empty">No teachers found</li>';
 };
 
+export const renderMessage = (text) => {
+  document.getElementById('teachers-list').innerHTML = `<li class="teachers__empty">${escapeHtml(text)}</li>`;
+};
+
+export const renderStatsCount = (visibleCount, totalCount, percent) => {
+  document.getElementById('stats-count').textContent = `Showing ${visibleCount} of ${totalCount} teachers (${percent}%)`;
+};
+
 export const renderFavorites = (users) => {
   const list = document.getElementById('favorites-list');
   list.innerHTML = users.map((user) => cardTemplate(user, true)).join('');

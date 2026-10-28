@@ -37,3 +37,5 @@ export const DEFAULT_PHONE_PATTERN = /^[\d\s()+-]{6,}$/;
 export const SORTABLE_FIELDS = ['full_name', 'course', 'age', 'b_day', 'country'];
 
 export const PAGE_SIZE = 10;
+
+export const INITIAL_USERS_COUNT = 50;

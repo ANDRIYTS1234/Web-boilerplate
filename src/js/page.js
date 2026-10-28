@@ -1,7 +1,11 @@
+import formatUsers from './format-users';
 import filterUsers from './filter-users';
 import sortUsers from './sort-users';
 import { searchUsers } from './find-user';
+import getMatchPercent from './match-percent';
 import { getUserFromForm, validateNewUser } from './teacher-form';
+import { fetchUsers, saveTeacher } from './api';
+import { INITIAL_USERS_COUNT, PAGE_SIZE } from './constants';
 import {
   renderTeachers,
   renderFavorites,
@@ -10,6 +14,8 @@ import {
   renderSortHeaders,
   renderCountryOptions,
   renderTeacherInfo,
+  renderMessage,
+  renderStatsCount,
 } from './render';
 
 const state = {
@@ -21,6 +27,7 @@ const state = {
   sortOrder: 'asc',
   page: 1,
   selectedId: null,
+  nextApiPage: INITIAL_USERS_COUNT / PAGE_SIZE + 1,
 };
 
 const parseAge = (value) => {
@@ -53,6 +60,35 @@ const render = () => {
   renderPagination(sortedUsers.length, state.page);
   renderSortHeaders(state.sortField, state.sortOrder);
   renderFavorites(state.users.filter((user) => user.favorite));
+  renderStatsCount(
+    visibleUsers.length,
+    state.users.length,
+    getMatchPercent(state.users, (user) => visibleUsers.includes(user)),
+  );
+};
+
+const addUsers = (users) => {
+  state.users = state.users.concat(users);
+  renderCountryOptions(state.users);
+  render();
+};
+
+const loadMoreUsers = () => {
+  const button = document.getElementById('load-more');
+  button.disabled = true;
+
+  fetchUsers(PAGE_SIZE, state.nextApiPage)
+    .then((results) => {
+      state.nextApiPage += 1;
+      button.textContent = 'Next';
+      addUsers(formatUsers(results));
+    })
+    .catch(() => {
+      button.textContent = 'Try again';
+    })
+    .finally(() => {
+      button.disabled = false;
+    });
 };
 
 const openTeacherInfo = (id) => {
@@ -82,6 +118,7 @@ const handleMainClick = (event) => {
   const header = event.target.closest('th[data-sort]');
   const pageButton = event.target.closest('[data-page]');
   const arrow = event.target.closest('.slider__arrow');
+  const loadButton = event.target.closest('#load-more');
 
   if (card) {
     openTeacherInfo(card.dataset.id);
@@ -95,6 +132,9 @@ const handleMainClick = (event) => {
   }
   if (arrow) {
     scrollFavorites(arrow);
+  }
+  if (loadButton) {
+    loadMoreUsers();
   }
 };
 
@@ -142,18 +182,24 @@ const handleAddTeacher = (event) => {
     return;
   }
 
-  errorsBox.textContent = '';
-  state.users.push(user);
-  form.reset();
-  renderCountryOptions(state.users);
-  render();
-  window.location.hash = 'teachers';
+  saveTeacher(user)
+    .then(() => {
+      errorsBox.textContent = '';
+      form.reset();
+      addUsers([user]);
+      window.location.hash = 'teachers';
+    })
+    .catch(() => {
+      errorsBox.textContent = 'Could not save the teacher. Start the server with "npm run server".';
+    });
 };
 
-const initPage = (users) => {
-  state.users = users;
-  renderCountryOptions(state.users);
-  render();
+const initPage = () => {
+  renderMessage('Loading teachers...');
+
+  fetchUsers(INITIAL_USERS_COUNT, 1)
+    .then((results) => addUsers(formatUsers(results)))
+    .catch(() => renderMessage('Could not load teachers. Try again later.'));
 
   document.querySelector('main').addEventListener('click', handleMainClick);
   document.getElementById('filters').addEventListener('change', handleFiltersChange);
