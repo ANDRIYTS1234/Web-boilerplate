@@ -1,4 +1,6 @@
-import testModules from './test-module.js';
-/** ******** Your code here! *********** */
+import '../scss/style.scss';
+import { randomUserMock, additionalUsers } from './mock';
+import formatUsers from './format-users';
+import initPage from './page';
 
-console.log(testModules.hello);
+initPage(formatUsers(randomUserMock, additionalUsers));
