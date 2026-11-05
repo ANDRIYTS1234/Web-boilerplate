@@ -115,24 +115,15 @@
   }
 
   .stats {
-    margin-top: 20px;
     overflow-x: auto;
 
-    &__table {
-      min-width: 600px;
-
-      th {
-        font-size: 17px;
-      }
-
-      td {
-        font-size: 14px;
-      }
+    &__views {
+      flex-wrap: wrap;
     }
-  }
 
-  .pagination {
-    margin-top: 20px;
+    &__chart {
+      height: 300px;
+    }
   }
 
   .slider {

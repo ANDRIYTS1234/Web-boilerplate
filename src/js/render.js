@@ -1,5 +1,5 @@
-import { PAGE_SIZE } from './constants';
-import { capitalize, escapeHtml } from './utils';
+import _ from 'lodash';
+import { capitalize, escapeHtml, getDaysToBirthday } from './utils';
 
 const getInitials = (fullName) => fullName
   .split(' ')
@@ -24,15 +24,6 @@ const cardTemplate = (user, isFavoritesList) => {
     </li>`;
 };
 
-const rowTemplate = (user) => `
-  <tr>
-    <td>${escapeHtml(user.full_name)}</td>
-    <td>${escapeHtml(user.course)}</td>
-    <td>${escapeHtml(user.age)}</td>
-    <td>${escapeHtml(capitalize(user.gender))}</td>
-    <td>${escapeHtml(user.country)}</td>
-  </tr>`;
-
 export const renderTeachers = (users) => {
   const list = document.getElementById('teachers-list');
   list.innerHTML = users.length
@@ -53,44 +44,24 @@ export const renderFavorites = (users) => {
   list.innerHTML = users.map((user) => cardTemplate(user, true)).join('');
 };
 
-export const renderTable = (users, page) => {
-  const start = (page - 1) * PAGE_SIZE;
-  const body = document.getElementById('stats-body');
-  body.innerHTML = users.slice(start, start + PAGE_SIZE).map(rowTemplate).join('');
-};
-
-export const renderPagination = (usersCount, currentPage) => {
-  const pagesCount = Math.ceil(usersCount / PAGE_SIZE);
-  const items = [];
-
-  for (let page = 1; page <= pagesCount; page += 1) {
-    items.push(page === currentPage
-      ? `<span class="pagination__item pagination__item--current">${page}</span>`
-      : `<button class="pagination__item" type="button" data-page="${page}">${page}</button>`);
-  }
-
-  document.getElementById('stats-pagination').innerHTML = items.join('');
-};
-
-export const renderSortHeaders = (field, order) => {
-  document.querySelectorAll('th[data-sort]').forEach((header) => {
-    header.classList.remove('is-asc', 'is-desc');
-    if (header.dataset.sort === field) {
-      header.classList.add(order === 'asc' ? 'is-asc' : 'is-desc');
-    }
-  });
-};
-
 export const renderCountryOptions = (users) => {
   const select = document.getElementById('f-country');
   const selected = select.value;
-  const countries = [...new Set(users.map((user) => user.country))].filter(Boolean).sort();
-  const options = countries
-    .map((country) => `<option value="${escapeHtml(country)}">${escapeHtml(country)}</option>`)
-    .join('');
+  const countries = _.sortBy(_.compact(_.uniq(_.map(users, 'country'))));
+  const options = _.map(
+    countries,
+    (country) => `<option value="${escapeHtml(country)}">${escapeHtml(country)}</option>`,
+  ).join('');
 
   select.innerHTML = `<option value="">All</option>${options}`;
   select.value = selected;
+};
+
+const getBirthdayText = (birthDate) => {
+  const days = getDaysToBirthday(birthDate);
+  if (days === null) return '';
+  if (days === 0) return 'Birthday is today!';
+  return `Days until birthday: ${days}`;
 };
 
 export const renderTeacherInfo = (user) => {
@@ -107,15 +78,25 @@ export const renderTeacherInfo = (user) => {
 
   document.getElementById('info-name').textContent = user.full_name;
   document.getElementById('info-course').textContent = user.course;
-  document.getElementById('info-location').textContent = [user.city, user.country]
-    .filter(Boolean)
+  document.getElementById('info-location').textContent = _.compact([user.city, user.country])
     .join(', ');
   document.getElementById('info-age').textContent = `${age}${capitalize(user.gender)}`;
   document.getElementById('info-phone').textContent = user.phone || '';
   document.getElementById('info-note').textContent = user.note || '';
+  document.getElementById('info-birthday').textContent = getBirthdayText(user.b_day);
+  document.getElementById('info-map-toggle').hidden = !user.coordinates;
 
   email.textContent = user.email || '';
   email.href = user.email ? `mailto:${user.email}` : '#teacher-info';
 
   star.classList.toggle('teacher-info__star--active', user.favorite);
+};
+
+export const renderStatsView = (view) => {
+  document.getElementById('stats-chart-view').hidden = view !== 'chart';
+  document.getElementById('stats-report-view').hidden = view === 'chart';
+
+  document.querySelectorAll('[data-view]').forEach((button) => {
+    button.classList.toggle('btn--active', button.dataset.view === view);
+  });
 };

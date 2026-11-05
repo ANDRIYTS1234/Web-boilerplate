@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 *,
 *::before,
 *::after {
@@ -69,7 +67,8 @@ textarea {
 }
 
 .btn:hover,
-.btn:focus-visible {
+.btn:focus-visible,
+.btn--active {
   background-color: #f75c49;
   color: #fff;
 }
@@ -350,7 +349,7 @@ textarea {
 }
 
 .stats {
-  margin-top: 40px;
+  margin-top: 24px;
 }
 
 .stats__count {
@@ -359,120 +358,25 @@ textarea {
   text-align: center;
 }
 
-.stats__table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.stats__table th {
-  position: relative;
-  height: 50px;
-  padding: 0;
-  border-bottom: 1px solid #222;
-  font-family: "Source Sans Pro", "Source Sans 3", Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.stats__table th:first-child {
-  padding-left: 33px;
-  text-align: left;
-}
-
-.stats__table th::after {
-  content: "↓";
-  position: absolute;
-  margin-left: 10px;
-  color: #1a9cb0;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.stats__table th[data-sort] {
-  cursor: pointer;
-}
-
-.stats__table th[data-sort]:hover,
-.stats__table th.is-asc,
-.stats__table th.is-desc {
-  background-color: #fafafa;
-  box-shadow: inset 0 -4px 0 #222;
-}
-
-.stats__table th[data-sort]:hover::after,
-.stats__table th.is-asc::after,
-.stats__table th.is-desc::after {
-  opacity: 1;
-}
-
-.stats__table th.is-asc::after {
-  content: "↑";
-}
-
-.stats__table td {
-  height: 36px;
-  padding: 0;
-  font-size: 16px;
-  text-align: center;
-}
-
-.stats__table td:first-child {
-  padding-left: 20px;
-  text-align: left;
-}
-
-.stats__table tbody tr:nth-child(even) {
-  background-color: #f9f5f9;
-}
-
-.stats__col--name {
-  width: 229px;
-}
-
-.stats__col--speciality {
-  width: 233px;
-}
-
-.stats__col--age {
-  width: 138px;
-}
-
-.stats__col--gender {
-  width: 174px;
-}
-
-.stats__col--nationality {
-  width: 226px;
-}
-
-.pagination {
+.stats__views {
   display: flex;
-  gap: 21px;
-  margin-top: 33px;
-  padding-left: 20px;
-  font-size: 14px;
-  line-height: 18px;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
 }
 
-.pagination__item {
-  padding: 0;
-  border: none;
-  background: none;
-  color: #1a9cb0;
-  font: inherit;
-  cursor: pointer;
+.stats__group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #999;
+  font-size: 15px;
 }
 
-.pagination__item--current,
-.pagination__item--dots {
-  color: #222;
-  cursor: default;
-}
-
-.pagination button:hover {
-  text-decoration: underline;
+.stats__chart {
+  position: relative;
+  height: 400px;
+  margin-top: 20px;
 }
 
 .slider {
@@ -810,6 +714,11 @@ textarea {
   line-height: 19px;
 }
 
+.teacher-info__map {
+  height: 300px;
+  margin-top: 16px;
+}
+
 @media (max-width: 767px) {
   .page {
     width: 100%;
@@ -920,24 +829,15 @@ textarea {
   }
 
   .stats {
-    margin-top: 20px;
     overflow-x: auto;
   }
 
-  .stats__table {
-    min-width: 600px;
+  .stats__views {
+    flex-wrap: wrap;
   }
 
-  .stats__table th {
-    font-size: 17px;
-  }
-
-  .stats__table td {
-    font-size: 14px;
-  }
-
-  .pagination {
-    margin-top: 20px;
+  .stats__chart {
+    height: 300px;
   }
 
   .slider {

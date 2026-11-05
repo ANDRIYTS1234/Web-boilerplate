@@ -1,15 +1,16 @@
+import _ from 'lodash';
 import { isNil } from './utils';
 
 const matchesAge = (age, condition) => {
-  if (typeof condition === 'number') return age === condition;
+  if (_.isNumber(condition)) return age === condition;
 
   const { min = -Infinity, max = Infinity } = condition;
-  return typeof age === 'number' && age >= min && age <= max;
+  return _.isNumber(age) && _.inRange(age, min, max + 1);
 };
 
 const filterUsers = (users, {
   country, age, gender, favorite,
-} = {}) => users.filter((user) => (
+} = {}) => _.filter(users, (user) => (
   (isNil(country) || user.country === country)
   && (isNil(age) || matchesAge(user.age, age))
   && (isNil(gender) || user.gender === gender)

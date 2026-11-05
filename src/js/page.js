@@ -5,17 +5,18 @@ import { searchUsers } from './find-user';
 import getMatchPercent from './match-percent';
 import { getUserFromForm, validateNewUser } from './teacher-form';
 import { fetchUsers, saveTeacher } from './api';
+import renderChart from './stats-chart';
+import renderReport from './report';
+import { toggleMap, hideMap } from './map';
 import { INITIAL_USERS_COUNT, PAGE_SIZE } from './constants';
 import {
   renderTeachers,
   renderFavorites,
-  renderTable,
-  renderPagination,
-  renderSortHeaders,
   renderCountryOptions,
   renderTeacherInfo,
   renderMessage,
   renderStatsCount,
+  renderStatsView,
 } from './render';
 
 const state = {
@@ -23,10 +24,9 @@ const state = {
   filters: {},
   onlyWithPhoto: false,
   search: '',
-  sortField: 'full_name',
-  sortOrder: 'asc',
-  page: 1,
   selectedId: null,
+  statsView: 'chart',
+  chartGroup: 'course',
   nextApiPage: INITIAL_USERS_COUNT / PAGE_SIZE + 1,
 };
 
@@ -51,20 +51,27 @@ const getVisibleUsers = () => {
   return users;
 };
 
+const renderStats = (visibleUsers) => {
+  renderStatsView(state.statsView);
+
+  if (state.statsView === 'chart') {
+    renderChart(visibleUsers, state.chartGroup);
+  } else {
+    renderReport(sortUsers(state.users, 'full_name'), state.statsView);
+  }
+};
+
 const render = () => {
   const visibleUsers = getVisibleUsers();
-  const sortedUsers = sortUsers(visibleUsers, state.sortField, state.sortOrder);
 
   renderTeachers(visibleUsers);
-  renderTable(sortedUsers, state.page);
-  renderPagination(sortedUsers.length, state.page);
-  renderSortHeaders(state.sortField, state.sortOrder);
   renderFavorites(state.users.filter((user) => user.favorite));
   renderStatsCount(
     visibleUsers.length,
     state.users.length,
     getMatchPercent(state.users, (user) => visibleUsers.includes(user)),
   );
+  renderStats(visibleUsers);
 };
 
 const addUsers = (users) => {
@@ -93,19 +100,9 @@ const loadMoreUsers = () => {
 
 const openTeacherInfo = (id) => {
   state.selectedId = id;
+  hideMap();
   renderTeacherInfo(findUserById(id));
   window.location.hash = 'teacher-info';
-};
-
-const changeSort = (field) => {
-  if (state.sortField === field) {
-    state.sortOrder = state.sortOrder === 'asc' ? 'desc' : 'asc';
-  } else {
-    state.sortField = field;
-    state.sortOrder = 'asc';
-  }
-  state.page = 1;
-  render();
 };
 
 const scrollFavorites = (arrow) => {
@@ -115,20 +112,16 @@ const scrollFavorites = (arrow) => {
 
 const handleMainClick = (event) => {
   const card = event.target.closest('[data-id]');
-  const header = event.target.closest('th[data-sort]');
-  const pageButton = event.target.closest('[data-page]');
+  const viewButton = event.target.closest('[data-view]');
   const arrow = event.target.closest('.slider__arrow');
   const loadButton = event.target.closest('#load-more');
 
   if (card) {
     openTeacherInfo(card.dataset.id);
   }
-  if (header) {
-    changeSort(header.dataset.sort);
-  }
-  if (pageButton) {
-    state.page = Number(pageButton.dataset.page);
-    render();
+  if (viewButton) {
+    state.statsView = viewButton.dataset.view;
+    renderStats(getVisibleUsers());
   }
   if (arrow) {
     scrollFavorites(arrow);
@@ -148,8 +141,17 @@ const handleFiltersChange = () => {
     favorite: form.elements.favorite.checked ? true : undefined,
   };
   state.onlyWithPhoto = form.elements.photo.checked;
-  state.page = 1;
   render();
+};
+
+const handleMainChange = (event) => {
+  if (event.target.id === 'chart-group') {
+    state.chartGroup = event.target.value;
+    renderStats(getVisibleUsers());
+  }
+  if (event.target.closest('#filters')) {
+    handleFiltersChange();
+  }
 };
 
 const handleSearch = (event) => {
@@ -157,17 +159,22 @@ const handleSearch = (event) => {
   const query = document.getElementById('search-form').elements.search.value.trim();
 
   state.search = /^\d+$/.test(query) ? Number(query) : query;
-  state.page = 1;
   render();
 };
 
-const handleStarClick = () => {
+const handleInfoClick = (event) => {
   const user = findUserById(state.selectedId);
   if (!user) return;
 
-  user.favorite = !user.favorite;
-  renderTeacherInfo(user);
-  render();
+  if (event.target.closest('#info-star')) {
+    user.favorite = !user.favorite;
+    renderTeacherInfo(user);
+    render();
+  }
+  if (event.target.closest('#info-map-toggle')) {
+    event.preventDefault();
+    toggleMap(user.coordinates);
+  }
 };
 
 const handleAddTeacher = (event) => {
@@ -201,10 +208,11 @@ const initPage = () => {
     .then((results) => addUsers(formatUsers(results)))
     .catch(() => renderMessage('Could not load teachers. Try again later.'));
 
-  document.querySelector('main').addEventListener('click', handleMainClick);
-  document.getElementById('filters').addEventListener('change', handleFiltersChange);
+  const main = document.querySelector('main');
+  main.addEventListener('click', handleMainClick);
+  main.addEventListener('change', handleMainChange);
   document.getElementById('search-form').addEventListener('submit', handleSearch);
-  document.getElementById('info-star').addEventListener('click', handleStarClick);
+  document.getElementById('teacher-info').addEventListener('click', handleInfoClick);
   document.getElementById('add-teacher-form').addEventListener('submit', handleAddTeacher);
 };
 

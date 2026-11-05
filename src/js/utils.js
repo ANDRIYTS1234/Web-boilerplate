@@ -1,46 +1,44 @@
+import _ from 'lodash';
+import dayjs from 'dayjs';
 import { COURSES } from './constants';
 
-export const isNil = (value) => value === null || value === undefined;
+export const isNil = (value) => _.isNil(value);
 
-export const startsWithCapital = (value) => typeof value === 'string'
+export const startsWithCapital = (value) => _.isString(value)
   && value.length > 0
-  && value[0] === value[0].toUpperCase();
+  && value[0] === _.toUpper(value[0]);
 
-const getRandomItem = (items) => items[Math.floor(Math.random() * items.length)];
-
-export const getRandomCourse = () => getRandomItem(COURSES);
+export const getRandomCourse = () => _.sample(COURSES);
 
 export const getRandomColor = () => {
-  const hex = Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0');
+  const hex = _.random(0, 0xffffff).toString(16).padStart(6, '0');
   return `#${hex}`;
 };
 
-export const generateId = () => Math.random().toString(36).slice(2, 12);
+export const generateId = () => _.uniqueId('teacher-');
 
 export const normalizeCourse = (course) => {
-  if (typeof course !== 'string') return null;
-  return COURSES.find((item) => item.toLowerCase() === course.toLowerCase()) || null;
+  if (!_.isString(course)) return null;
+  return _.find(COURSES, (item) => _.toLower(item) === _.toLower(course)) || null;
 };
 
-export const getAge = (birthDate, now = new Date()) => {
-  if (!birthDate) return null;
-
-  const birth = new Date(birthDate);
-  if (Number.isNaN(birth.getTime())) return null;
-
-  const age = now.getFullYear() - birth.getFullYear();
-  const hadBirthday = now.getMonth() > birth.getMonth()
-    || (now.getMonth() === birth.getMonth() && now.getDate() >= birth.getDate());
-
-  return hadBirthday ? age : age - 1;
+export const getAge = (birthDate) => {
+  if (!birthDate || !dayjs(birthDate).isValid()) return null;
+  return dayjs().diff(dayjs(birthDate), 'year');
 };
 
-export const normalizeName = (name) => (typeof name === 'string' ? name.trim().toLowerCase() : '');
+export const getDaysToBirthday = (birthDate) => {
+  if (!birthDate || !dayjs(birthDate).isValid()) return null;
 
-export const capitalize = (text) => (text ? text[0].toUpperCase() + text.slice(1) : '');
+  const today = dayjs().startOf('day');
+  const birthday = dayjs(birthDate).year(today.year()).startOf('day');
+  const nextBirthday = birthday.isBefore(today) ? birthday.add(1, 'year') : birthday;
 
-export const escapeHtml = (value) => String(isNil(value) ? '' : value)
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;');
+  return nextBirthday.diff(today, 'day');
+};
+
+export const normalizeName = (name) => _.toLower(_.trim(name));
+
+export const capitalize = (text) => _.upperFirst(text);
+
+export const escapeHtml = (value) => _.escape(isNil(value) ? '' : String(value));

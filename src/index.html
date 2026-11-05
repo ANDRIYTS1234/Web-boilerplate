@@ -76,28 +76,28 @@
       <section class="section" id="statistics">
         <h2 class="section__title">Statistics</h2>
         <p class="stats__count" id="stats-count"></p>
-        <div class="stats">
-          <table class="stats__table">
-            <colgroup>
-              <col class="stats__col stats__col--name">
-              <col class="stats__col stats__col--speciality">
-              <col class="stats__col stats__col--age">
-              <col class="stats__col stats__col--gender">
-              <col class="stats__col stats__col--nationality">
-            </colgroup>
-            <thead>
-              <tr>
-                <th data-sort="full_name">Name</th>
-                <th data-sort="course">Speciality</th>
-                <th data-sort="age">Age</th>
-                <th>Gender</th>
-                <th data-sort="country">Nationality</th>
-              </tr>
-            </thead>
-            <tbody id="stats-body"></tbody>
-          </table>
+        <div class="stats__views">
+          <button class="btn btn--small btn--active" type="button" data-view="chart">Chart</button>
+          <button class="btn btn--small" type="button" data-view="countries">Report by country</button>
+          <button class="btn btn--small" type="button" data-view="flat">All teachers</button>
         </div>
-        <nav class="pagination" id="stats-pagination"></nav>
+        <div class="stats" id="stats-chart-view">
+          <label class="stats__group" for="chart-group">
+            Group by
+            <select class="filters__select" id="chart-group">
+              <option value="course">Speciality</option>
+              <option value="country">Country</option>
+              <option value="gender">Gender</option>
+              <option value="age">Age</option>
+            </select>
+          </label>
+          <div class="stats__chart">
+            <canvas id="stats-chart"></canvas>
+          </div>
+        </div>
+        <div class="stats" id="stats-report-view" hidden>
+          <div id="stats-report"></div>
+        </div>
       </section>
 
       <section class="section" id="favorites">
@@ -233,12 +233,14 @@
           <p class="teacher-info__text" id="info-age"></p>
           <p class="teacher-info__text"><a class="link" id="info-email" href="#"></a></p>
           <p class="teacher-info__text" id="info-phone"></p>
+          <p class="teacher-info__text" id="info-birthday"></p>
         </div>
         <button class="teacher-info__star" id="info-star" type="button" aria-label="Add to favorites">
           <svg viewBox="0 0 40 38" width="40" height="38"><polygon points="20,1.5 25,14 38.5,14.5 28,23 31.5,36.5 20,28.5 8.5,36.5 12,23 1.5,14.5 15,14"/></svg>
         </button>
         <p class="teacher-info__description" id="info-note"></p>
-        <a class="link link--dotted" href="#teacher-info">toggle map</a>
+        <a class="link link--dotted" id="info-map-toggle" href="#teacher-info">toggle map</a>
+        <div class="teacher-info__map" id="info-map" hidden></div>
       </div>
     </div>
   </div>

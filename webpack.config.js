@@ -97,7 +97,7 @@ const CONFIG = {
         ],
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|svg|woff|woff2|ttf|eot)$/,
         use: [
           {
             loader: "file-loader",

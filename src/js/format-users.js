@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   isNil,
   getAge,
@@ -8,34 +9,33 @@ import {
   normalizeName,
 } from './utils';
 
-const getRandomUserId = ({ id, login }) => (id && id.value ? `${id.name}${id.value}` : login.uuid);
+const getRandomUserId = (user) => {
+  const value = _.get(user, 'id.value');
+  return value ? `${_.get(user, 'id.name')}${value}` : _.get(user, 'login.uuid');
+};
 
 const formatRandomUser = (user) => ({
   gender: user.gender,
-  title: user.name.title,
-  full_name: `${user.name.first} ${user.name.last}`,
-  city: user.location.city,
-  state: user.location.state,
-  country: user.location.country,
-  postcode: user.location.postcode,
-  coordinates: user.location.coordinates,
-  timezone: user.location.timezone,
+  title: _.get(user, 'name.title'),
+  full_name: `${_.get(user, 'name.first')} ${_.get(user, 'name.last')}`,
+  city: _.get(user, 'location.city'),
+  state: _.get(user, 'location.state'),
+  country: _.get(user, 'location.country'),
+  postcode: _.get(user, 'location.postcode'),
+  coordinates: _.get(user, 'location.coordinates'),
+  timezone: _.get(user, 'location.timezone'),
   email: user.email,
-  b_day: user.dob.date,
-  age: user.dob.age,
+  b_day: _.get(user, 'dob.date'),
+  age: _.get(user, 'dob.age'),
   phone: user.phone,
-  picture_large: user.picture.large,
-  picture_thumbnail: user.picture.thumbnail,
+  picture_large: _.get(user, 'picture.large'),
+  picture_thumbnail: _.get(user, 'picture.thumbnail'),
   id: getRandomUserId(user),
   favorite: false,
   course: getRandomCourse(),
   bg_color: getRandomColor(),
   note: null,
 });
-
-const withoutEmptyFields = (user) => Object.fromEntries(
-  Object.entries(user).filter(([, value]) => !isNil(value)),
-);
 
 const normalizeUser = (user) => {
   const bDay = user.b_day || null;
@@ -52,7 +52,7 @@ const normalizeUser = (user) => {
     timezone: user.timezone || null,
     email: user.email || null,
     b_day: bDay,
-    age: typeof user.age === 'number' ? user.age : getAge(bDay),
+    age: _.isNumber(user.age) ? user.age : getAge(bDay),
     phone: user.phone || null,
     picture_large: user.picture_large || null,
     picture_thumbnail: user.picture_thumbnail || null,
@@ -60,24 +60,20 @@ const normalizeUser = (user) => {
     favorite: user.favorite === true,
     course: normalizeCourse(user.course) || getRandomCourse(),
     bg_color: user.bg_color || getRandomColor(),
-    note: typeof user.note === 'string' ? user.note : null,
+    note: _.isString(user.note) ? user.note : null,
   };
 };
 
 const formatUsers = (randomUsers = [], additionalUsers = []) => {
-  const usersByName = new Map();
+  const getKey = (user) => normalizeName(user.full_name);
+  const usersByName = _.keyBy(_.map(randomUsers, formatRandomUser), getKey);
 
-  randomUsers.map(formatRandomUser).forEach((user) => {
-    usersByName.set(normalizeName(user.full_name), user);
+  _.forEach(additionalUsers, (user) => {
+    const key = getKey(user);
+    usersByName[key] = { ...usersByName[key], ..._.omitBy(user, _.isNil) };
   });
 
-  additionalUsers.forEach((user) => {
-    const key = normalizeName(user.full_name);
-    const existing = usersByName.get(key) || {};
-    usersByName.set(key, { ...existing, ...withoutEmptyFields(user) });
-  });
-
-  return [...usersByName.values()].map(normalizeUser);
+  return _.map(_.values(usersByName), normalizeUser);
 };
 
 export default formatUsers;
