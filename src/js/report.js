@@ -21,8 +21,8 @@ const countriesSlice = {
   rows: [{ uniqueName: 'Country' }],
   columns: [{ uniqueName: 'Measures' }],
   measures: [
-    { uniqueName: 'Name', aggregation: 'count', caption: 'Teachers' },
-    { uniqueName: 'Age', aggregation: 'average', caption: 'Average age' },
+    { uniqueName: 'Teachers', formula: 'count("Name")', caption: 'Teachers' },
+    { uniqueName: 'Average age', formula: 'average("Age")', caption: 'Average age' },
   ],
 };
 
@@ -37,7 +37,7 @@ const renderReport = (users, type) => {
     options: {
       grid: {
         type: type === 'flat' ? 'flat' : 'compact',
-        showGrandTotals: type === 'flat' ? 'off' : 'on',
+        showGrandTotals: type === 'flat' ? 'off' : 'rows',
       },
     },
     formats: [{ name: '', decimalPlaces: 0 }],
